@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<!--    thymeleaf拓展标签-->
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    肚曾
+    吔屎
+    <br>
+<!--    取值-->
+    <p th:text="${hello}">boy</p>
+<!--循环-->
+    <p th:each="str:${stringList}" th:text="${str}" />
+    <p th:each="str:${stringList}">
+        <input th:value="${str}" />
+    </p>
+<!--判断-->
+    <p th:if="1==1">我是肚曾</p>
+    <input type="checkbox" th:checked="${check}=='1'">
+<!--传值给javascript-->
+<!--    单引号转义-->
+<!--    第一个单引号，表示在th中使用js-->
+<!--    第二个单引号表示js传参的字符串-->
+<!--    js调用里面传参，字符串类型必须加单引号-->
+    <a th:href="'javascript:f(\''+${hello}+'\')'">click me</a>
+    <script language="JavaScript">
+        function f(hello) {
+            alert("js funtions"+hello);
+        }
+    </script>
+<!--页面引入-->
+    <div th:include="indexinner::innerPart"></div>
+
+</body>
+</html>

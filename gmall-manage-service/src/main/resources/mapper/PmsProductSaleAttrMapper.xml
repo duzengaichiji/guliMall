@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nhx.gmall.manage.mapper.PmsProductSaleAttrMapper">
+    <select id="selectspuScaleAttrListCheckBySku" resultMap="selectspuScaleAttrListCheckBySkuMap">
+        select
+            sa.id as sa_id,sav.id as sav_id,sa.*,sav.*,if(ssav.sku_id,1,0) as isChecked
+            from
+                pms_product_sale_attr sa
+            inner join pms_product_sale_attr_value sav on sa.product_id=sav.product_id
+            and sa.sale_attr_id=sav.sale_attr_id
+            and sa.product_id = #{productId}
+            left join pms_sku_sale_attr_value ssav on sav.id=ssav.sale_attr_value_id
+            and ssav.sku_id=#{skuId}
+    </select>
+<!--    多重对象要进行mapping映射，保证对象被封装-->
+    <resultMap id="selectspuScaleAttrListCheckBySkuMap" type="com.nhx.gmall.bean.PmsProductSaleAttr" autoMapping="true">
+<!--        映射结果列，只要映射主键，其他列自动映射-->
+        <result column="sa_id" property="id"></result>
+        <collection property="spuSaleAttrValueList" ofType="com.nhx.gmall.bean.PmsProductSaleAttrValue" autoMapping="true">
+            <result column="sav_id" property="id"></result>
+        </collection>
+    </resultMap>
+</mapper>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nhx.gmall.manage.mapper.PmsBaseAttrInfoMapper">
+    <select id="selectAttrValueListByValueId" resultMap="selectAttrValueListByValueIdMap">
+        select
+            ba.*,ba.id as ba_id,bv.*,bv.id as bv_id
+        from
+            pms_base_attr_info ba,pms_base_attr_value bv
+        where
+            ba.id = bv.attr_id
+        and
+            bv.id in (${valueIdStr})
+    </select>
+<!--    多重对象要进行mapping映射，保证对象被封装-->
+    <resultMap id="selectAttrValueListByValueIdMap" type="com.nhx.gmall.bean.PmsBaseAttrInfo" autoMapping="true">
+<!--        映射结果列，只要映射主键，其他列自动映射-->
+        <result column="ba_id" property="id"></result>
+        <collection property="attrValueList" ofType="com.nhx.gmall.bean.PmsBaseAttrValue" autoMapping="true">
+            <result column="bv_id" property="id"></result>
+        </collection>
+    </resultMap>
+</mapper>

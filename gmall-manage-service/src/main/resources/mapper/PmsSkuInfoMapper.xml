@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nhx.gmall.manage.mapper.PmsSkuInfoMapper">
+    <select id="selectSpuSaleAttrListCheckBySku" resultMap="selectSpuSaleAttrListCheckBySkuMap">
+        SELECT
+            si.*,ssav.*,si.id as si_id,ssav.id as ssav_id
+            FROM
+            pms_sku_info si,pms_sku_sale_attr_value ssav
+            WHERE
+            si.product_id=#{product_id} AND si.id=ssav.sku_id
+    </select>
+<!--    多重对象要进行mapping映射，保证对象被封装-->
+    <resultMap id="selectSpuSaleAttrListCheckBySkuMap" type="com.nhx.gmall.bean.PmsSkuInfo" autoMapping="true">
+<!--        映射结果列，只要映射主键，其他列自动映射-->
+        <result column="si_id" property="id"></result>
+        <collection property="skuSaleAttrValueList" ofType="com.nhx.gmall.bean.PmsSkuSaleAttrValue" autoMapping="true">
+            <result column="ssav_id" property="id"></result>
+        </collection>
+    </resultMap>
+</mapper>
